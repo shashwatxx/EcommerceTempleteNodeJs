@@ -1,0 +1,19 @@
+extends layouts/main-layout.pug
+
+block styles
+    link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Fredoka+One")
+    link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Raleway:400,700")
+    link(rel="stylesheet", href="/css/main.css")
+    link(rel="stylesheet", href="/css/404.css")
+
+
+block content
+    div#notfound
+        .notfound
+            .notfound-404
+                h1 404
+            h2 Oops!,The Page you are looking for can't be found!
+            form.notfound-search(action="")
+                input(type="text" ,placeholder="Search....")
+                button(type='button') Search
+            a(href="/") Return To HomePage         
