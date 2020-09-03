@@ -7,15 +7,21 @@ const bodyParser = require("body-parser");
 
 const adminRoutes = require("./routes/admin");
 const shoproutes = require("./routes/shop");
-const errorController = require('./controllers/errors');
+const errorController = require("./controllers/errorsController");
+
+
+
+
 const app = express();
 // app.engine('hbs', expressHbs);
 app.set("view engine", "ejs");
 // app.set("views", "views");  Not required if the name of html folder is views
 
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
 
 app.use(express.static(path.join(__dirname, "public")));
 
