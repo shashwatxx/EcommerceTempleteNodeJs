@@ -14,7 +14,8 @@ exports.getEditProduct = (req, res, next) => {
     return res.redirect("/");
   }
   const prodId = req.params.productId;
-  Product.findByPk(prodId)
+  req.user
+    .getProducts({ where: { id: prodId } })
     .then((product) => {
       if (!product) {
         return res.redirect("errorPage");
@@ -85,7 +86,6 @@ exports.getProducts = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
   Product.findByPk(prodId)
@@ -98,4 +98,3 @@ exports.postDeleteProduct = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
- 
