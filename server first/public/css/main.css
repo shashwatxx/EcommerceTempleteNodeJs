@@ -23,6 +23,13 @@ form {
   text-align: center;
 }
 
+.image {
+  height: 20rem;
+}
+.image img {
+  height: 20rem;
+}
+
 .main-header {
   width: 100%;
   height: 3.5rem;
@@ -75,6 +82,9 @@ form {
   transition: transform 0.3s ease-out;
 }
 
+#detail {
+  margin-bottom: 10px;
+}
 .mobile-nav.open {
   transform: translateX(0);
 }
