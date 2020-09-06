@@ -1,15 +1,17 @@
-const Sequelize = require("sequelize");
+//Cluster is made by my account shashwatmishra2111@gmail.com
+const mongodb = require("mongodb");
+///////////////////////////////////
+const MongoClient = mongodb.MongoClient;
+const uri =
+  "mongodb+srv://shashwat:2eAxUNsTSMK3N3Um@cluster0.ofh41.mongodb.net/<dbname>?retryWrites=true&w=majority";
 
-const sequelize = new Sequelize("node-learning", "root", "password", {
-  dialect: "mysql",
-});
-module.exports = sequelize;
-//for using mysql2
-// const pool = mysql.createPool({
-//   host: "localhost",
-//   user: "root",
-//   database: "node-learning",
-//   password: "password",
-// });
+const mongoconnect = (callback) => {
+  MongoClient.connect(uri)
+    .then((client) => {
+      console.log("Connected");
+      callback(client);
+    })
+    .catch((err) => console.log(err));
+};
 
-// module.exports = pool.promise();
+module.exports = mongoconnect;
