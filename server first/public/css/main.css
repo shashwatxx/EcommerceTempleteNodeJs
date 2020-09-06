@@ -26,8 +26,9 @@ form {
 .image {
   height: 20rem;
 }
+
 .image img {
-  height: 20rem;
+  height: 100%;
 }
 
 .main-header {
@@ -65,7 +66,7 @@ form {
 .main-header__item a:hover,
 .main-header__item a:active,
 .main-header__item a.active {
-  color: #0bfa17;
+  color: #25e72e;
 }
 
 .mobile-nav {
@@ -82,9 +83,6 @@ form {
   transition: transform 0.3s ease-out;
 }
 
-#detail {
-  margin-bottom: 10px;
-}
 .mobile-nav.open {
   transform: translateX(0);
 }
@@ -112,7 +110,7 @@ form {
 .mobile-nav__item a:active,
 .mobile-nav__item a:hover,
 .mobile-nav__item a.active {
-  background: black;
+  background: #ff518e;
   color: white;
   border-radius: 3px;
 }
@@ -133,8 +131,8 @@ form {
 
 #side-menu-toggle:active,
 #side-menu-toggle:hover {
-  color: white;
-  border-color: wheat;
+  color: #ffeb3b;
+  border-color: #ffeb3b;
 }
 
 .backdrop {
@@ -204,6 +202,17 @@ form {
 .btn:hover,
 .btn:active {
   background-color: #ff518e;
+  color: white;
+}
+
+.btn.danger {
+  color: red;
+  border-color: red;
+}
+
+.btn.danger:hover,
+.btn.danger:active {
+  background: red;
   color: white;
 }
 

@@ -69,7 +69,7 @@ exports.postAddProduct = (req, res, next) => {
     })
     // Product.create()
     .then((result) => {
-      console.log("Create Product");
+      console.log(result);
       res.redirect("/products");
     })
     .catch((err) => console.log(err));
