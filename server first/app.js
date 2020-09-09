@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const { constants } = require("buffer");
 // const { use } = require("./routes/admin");
 const adminRoutes = require("./routes/admin");
-// const shoproutes = require("./routes/shop");
+const shoproutes = require("./routes/shop");
 const errorController = require("./controllers/errorsController");
 const mongoConnect = require("./util/database").mongoConnect;
 
@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // app.use((req, res, next) => {});
 
 app.use("/admin", adminRoutes);
-// app.use(shoproutes);
+app.use(shoproutes);
 
 app.use(errorController.get404);
 mongoConnect(() => {

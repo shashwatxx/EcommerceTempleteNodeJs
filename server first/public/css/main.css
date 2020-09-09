@@ -204,6 +204,9 @@ form {
   background-color: #ff518e;
   color: white;
 }
+#detail {
+  margin-bottom: 1rem;
+}
 
 .btn.danger {
   color: red;

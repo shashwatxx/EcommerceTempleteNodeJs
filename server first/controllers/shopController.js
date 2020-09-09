@@ -1,7 +1,7 @@
 const Product = require("../models/product");
 
 exports.getProducts = (req, res, next) => {
-  Product.findAll()
+  Product.fetchAll()
     .then((products) => {
       console.log(products);
       res.render("shop/product-list", {
@@ -16,18 +16,19 @@ exports.getProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   const productId = req.params.productId;
   //Approach to find using Where Query
-  Product.findAll({ where: { id: productId } })
-    .then((products) => {
-      res.render("shop/product-detail", {
-        PageTitle: products[0].title,
-        product: products[0],
-        path: "/products",
-      });
-    })
-    .catch((err) => console.log(err));
+  // Product.findById(productId)
+  //   .then((products) => {
+  //     res.render("shop/product-detail", {
+  //       PageTitle: products.title,
+  //       product: products,
+  //       path: "/products",
+  //     });
+  //   })
+  //   .catch((err) => console.log(err));
   //Approach to find using Primary key
-  Product.findByPk(productId)
+  Product.findById(productId)
     .then((product) => {
+      console.log(product);
       res.render("shop/product-detail", {
         PageTitle: product.title,
         product: product,
@@ -38,7 +39,7 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndexPage = (req, res, next) => {
-  Product.findAll()
+  Product.fetchAll()
     .then((products) => {
       console.log(products);
       res.render("shop/index", {
