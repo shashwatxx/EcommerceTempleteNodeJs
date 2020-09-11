@@ -43,4 +43,6 @@ mongoose
   .then((res) => {
     app.listen(3000);
   })
-  .catch();
+  .catch((err) => {
+    console.log(err);
+  });
