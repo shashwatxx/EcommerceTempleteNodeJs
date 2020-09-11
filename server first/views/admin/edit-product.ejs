@@ -6,8 +6,8 @@
 <body>
    <%- include('../includes/navigation.ejs') %>
 
-    <main>
-        <form class="product-form" action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST">
+    <main >
+        <form class="product-form"  class="centered" action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST">
             <div class="form-control">
                 <label for="title">Title</label>
                 <input type="text" name="title" id="title" value="<% if (editing) { %><%= product.title %><% } %>">
