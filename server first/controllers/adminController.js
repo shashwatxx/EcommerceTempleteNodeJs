@@ -1,8 +1,9 @@
 const Product = require("../models/product");
 
 exports.getProducts = (req, res, next) => {
-  Product.find()
+  Product.find().populate('userId') //Populate will fetch data for Corresponding userId stored in Product
     .then((products) => {
+      console.log(products);
       res.render("admin/products", {
         prods: products,
         path: "/admin/products",
