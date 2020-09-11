@@ -8,7 +8,7 @@ const { constants } = require("buffer");
 const adminRoutes = require("./routes/admin");
 const shoproutes = require("./routes/shop");
 const errorController = require("./controllers/errorsController");
-const mongoConnect = require("./util/database").mongoConnect;
+
 const User = require("./models/user");
 
 const app = express();

@@ -1,6 +1,6 @@
 const Db = require("mongodb/lib/db");
 const Product = require("../models/product");
-const { getDb } = require("../util/database");
+// const { getDb } = require("../util/database");
 
 exports.getProducts = (req, res, next) => {
   Product.fetchAll()
