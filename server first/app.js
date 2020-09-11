@@ -4,17 +4,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const { constants } = require("buffer");
-
 const adminRoutes = require("./routes/admin");
 const shoproutes = require("./routes/shop");
 const errorController = require("./controllers/errorsController");
-
+const e = require("express");
 const User = require("./models/user");
-
 const app = express();
-// app.engine('hbs', expressHbs);
 app.set("view engine", "ejs");
-// app.set("views", "views");  Not required if the name of html folder is views
+
 
 app.use(
   bodyParser.urlencoded({
@@ -25,9 +22,9 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
-  User.findbyId("5f5a5889deb1e532c15cc42e")
+  User.findById("5f5bf480f7bcdb0d2bfb6fd5")
     .then((user) => {
-      req.user = new User(user.name, user.email, user.cart, user._id);
+      req.user = user;
       next();
     })
     .catch((err) => console.log(err));
@@ -35,12 +32,23 @@ app.use((req, res, next) => {
 
 app.use("/admin", adminRoutes);
 app.use(shoproutes);
-
+app.use(errorController.get404);
 mongoose
   .connect(
-    "mongodb+srv://shashwat:2eAxUNsTSMK3N3Um@cluster0.ofh41.mongodb.net/shop?retryWrites=true&w=majority"
+    "mongodb+srv://shashwat:2eAxUNsTSMK3N3Um@cluster0.ofh41.mongodb.net/shop?retryWrites=true&w=majority",
+    { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then((res) => {
+    User.findOne().then(user => {
+      if (!user) {
+        const user = new User({
+          name: "Shashwat", email: "test@test.com", cart: { items: [] }
+        });
+        user.save();
+      }
+    })
+
+
     app.listen(3000);
   })
   .catch((err) => {

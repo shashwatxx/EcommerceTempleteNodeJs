@@ -3,7 +3,7 @@ const Product = require("../models/product");
 // const { getDb } = require("../util/database");
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll()
+  Product.find()
     .then((products) => {
       console.log(products);
       res.render("shop/product-list", {
@@ -17,17 +17,6 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const productId = req.params.productId;
-  //Approach to find using Where Query
-  // Product.findById(productId)
-  //   .then((products) => {
-  //     res.render("shop/product-detail", {
-  //       PageTitle: products.title,
-  //       product: products,
-  //       path: "/products",
-  //     });
-  //   })
-  //   .catch((err) => console.log(err));
-  //Approach to find using Primary key
   Product.findById(productId)
     .then((product) => {
       console.log(product);
@@ -41,7 +30,7 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndexPage = (req, res, next) => {
-  Product.fetchAll()
+  Product.find()
     .then((products) => {
       console.log(products);
       res.render("shop/index", {

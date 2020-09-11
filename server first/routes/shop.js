@@ -4,10 +4,10 @@ const path = require("path");
 const shopController = require("../controllers/shopController");
 const router = express.Router();
 
-// router.get("/", shopController.getIndexPage);
+router.get("/", shopController.getIndexPage);
 
-// router.get("/products", shopController.getProducts);
-// router.get("/products/:productId", shopController.getProduct);
+router.get("/products", shopController.getProducts);
+router.get("/products/:productId", shopController.getProduct);
 
 // router.get("/cart", shopController.getCart);
 // router.post("/cart", shopController.postCart);
