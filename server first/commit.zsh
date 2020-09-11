@@ -1,10 +1,10 @@
 cd /Users/shashwat/Desktop/LEarning/Learning\ NOde/server\ first
 echo "Enter Commit Message"
 read Message
-# if [Message -eq ""]
-# then 
+if ["$Message" = ""]
+then 
 Message="Auto Commit"
-# fi
+fi
 git add -A
 git commit -m "$Message"
 git push
