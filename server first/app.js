@@ -2,10 +2,9 @@ const http = require("http");
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
-// const expressHbs = require('express-handlebars');
-// // const pug = require('pug');
+const mongoose = require("mongoose");
 const { constants } = require("buffer");
-// const { use } = require("./routes/admin");
+
 const adminRoutes = require("./routes/admin");
 const shoproutes = require("./routes/shop");
 const errorController = require("./controllers/errorsController");
@@ -37,7 +36,11 @@ app.use((req, res, next) => {
 app.use("/admin", adminRoutes);
 app.use(shoproutes);
 
-app.use(errorController.get404);
-mongoConnect(() => {
-  app.listen(3000);
-});
+mongoose
+  .connect(
+    "mongodb+srv://shashwat:2eAxUNsTSMK3N3Um@cluster0.ofh41.mongodb.net/shop?retryWrites=true&w=majority"
+  )
+  .then((res) => {
+    app.listen(3000);
+  })
+  .catch();

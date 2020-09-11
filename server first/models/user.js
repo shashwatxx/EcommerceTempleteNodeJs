@@ -51,6 +51,7 @@ class User {
       .find({ _id: { $in: productIds } })
       .toArray()
       .then((products) => {
+        
         return products.map((p) => {
           return {
             ...p,
@@ -62,10 +63,51 @@ class User {
       });
   }
 
-static deleteCartProduct(productId){
-  const db=getDb();
-  
-}
+  deleteItemFromCartById(productId) {
+    const updatedCartItems = this.cart.items.filter((item) => {
+      return item.productId.toString() !== productId.toString();
+    });
+    const db = getDb();
+    return db
+      .collection("Users")
+      .updateOne(
+        { _id: new ObjectId(this._id) },
+        { $set: { cart: { items: updatedCartItems } } }
+      );
+  }
+
+  addOrder() {
+    const db = getDb();
+    return this.getCart()
+      .then((products) => {
+        const order = {
+          items: products,
+          user: {
+            _id: new ObjectId(this._id),
+            name: this.name,
+          },
+        };
+
+        return db.collection("Orders").insertOne(order);
+      })
+      .then((result) => {
+        this.cart = { items: [] };
+        return db
+          .collection("Users")
+          .updateOne(
+            { _id: new ObjectId(this._id) },
+            { $set: { cart: { items: [] } } }
+          );
+      });
+  }
+
+  getOrders() {
+    const db = getDb();
+    return db
+      .collection("Orders")
+      .find({ "user._id": new ObjectId(this._id) })
+      .toArray();
+  }
 
   static findbyId(userId) {
     const db = getDb();
