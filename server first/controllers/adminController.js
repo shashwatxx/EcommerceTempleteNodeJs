@@ -1,7 +1,9 @@
 const Product = require("../models/product");
 
 exports.getProducts = (req, res, next) => {
-  Product.find().populate('userId') //Populate will fetch data for Corresponding userId stored in Product
+  Product.find()
+    // .select('title price -_id')//selet will fetch data for slected fields only(put - to Exclude that field)
+    //   .populate('userId') //Populate will fetch data for Corresponding userId stored in Product
     .then((products) => {
       console.log(products);
       res.render("admin/products", {
