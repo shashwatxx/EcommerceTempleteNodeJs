@@ -40,6 +40,7 @@ app.use((req, res, next) => {
   if (!req.session.user) {
     return next();
   }
+
   User.findById(req.session.user._id)
     .then(user => {
       req.user = user;
@@ -55,20 +56,9 @@ app.use(authRoutes);
 app.use(errorController.get404);
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(MONGODB_URI, { useUnifiedTopology: true, useNewUrlParser: true })
   .then(result => {
-    User.findOne().then(user => {
-      if (!user) {
-        const user = new User({
-          name: 'Max',
-          email: 'max@test.com',
-          cart: {
-            items: []
-          }
-        });
-        user.save();
-      }
-    });
+    console.log('Connected To DB');
     app.listen(3000);
   })
   .catch(err => {
