@@ -1,12 +1,21 @@
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 const User = require('../models/user');
 
 exports.getLogin = (req, res, next) => {
+  let message = req.flash('error');
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
+
   res.render('auth/login', {
     path: '/login',
     PageTitle: 'Login',
-    isAuthenticated: false,
+    errorMessage: message
   });
 };
 
@@ -17,6 +26,9 @@ exports.postLogin = (req, res, next) => {
   User.findOne({ email: email })
     .then((user) => {
       if (!user) {
+
+        req.flash('error', 'User Not Found , Please Signup!!');
+
         return res.redirect('/login');
       }
       bcrypt
@@ -29,9 +41,15 @@ exports.postLogin = (req, res, next) => {
               console.log(err);
               return res.redirect('/');
             });
-
+          } else {
+            req.flash('error', "You Entered Wrong Password")
+            res.redirect('/login');
           }
-          return res.redirect('/login');
+
+
+
+
+
         })
         .catch((err) => {
           console.log(err);
@@ -43,10 +61,17 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.getSignup = (req, res, next) => {
+  let message = req.flash('error');
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
+
   res.render('auth/signup', {
     path: '/signup',
     PageTitle: 'Signup',
-    isAuthenticated: false,
+    errorMessage: message
   });
 };
 
@@ -58,7 +83,7 @@ exports.postSignup = (req, res, next) => {
   User.findOne({ email: email })
     .then((userDoc) => {
       if (userDoc) {
-        console.log('User Already Exist');
+        req.flash('error', 'Account with this Mail Exists!!');
         return res.redirect('/signup');
       }
       return bcrypt
