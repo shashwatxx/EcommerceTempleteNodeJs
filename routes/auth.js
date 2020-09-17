@@ -20,7 +20,7 @@ router.post('/signup', check('email').isEmail()
     //     }
     //     return true;
     // })
- , authController.postSignup);
+    , authController.postSignup);
 
 router.get('/resetPass', authController.getReset);
 
