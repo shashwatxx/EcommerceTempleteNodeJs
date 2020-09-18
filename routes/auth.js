@@ -21,8 +21,7 @@ router.post('/signup', [
             throw new Error("Passwords do not match!!");
         }
         return true;
-    })
-]
+    })]
     , authController.postSignup);
 
 router.get('/resetPass', authController.getReset);
