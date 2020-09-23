@@ -48,27 +48,12 @@ exports.postAddProduct = (req, res, next) => {
   product
     .save()
     .then(result => {
-      // console.log(result);
+
       console.log('Created Product');
       res.redirect('/admin/products');
     })
     .catch(err => {
-      // return res.status(500).render('admin/edit-product', {
-      //   PageTitle: 'Add Product',
-      //   path: '/admin/add-product',
-      //   editing: false,
-      //   hasError: true,
-      //   product: {
-      //     title: title,
-      //     imageUrl: imageUrl,
-      //     price: price,
-      //     description: description
-      //   },
-      //   errorMessage: "Internal Error : Please Try Again",
-      //   validationErrors: []
-      // });
-      // console.log(err);
-      // res.redirect('/500');
+
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);
