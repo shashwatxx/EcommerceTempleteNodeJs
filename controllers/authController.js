@@ -22,21 +22,44 @@ exports.getLogin = (req, res, next) => {
   res.render('auth/login', {
     path: '/login',
     PageTitle: 'Login',
-    errorMessage: message
+    errorMessage: message, oldInput: {
+      email: "", password: null
+    },
+    validationErrors: []
   });
 };
 
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render('auth/login', {
+      path: '/login',
+      PageTitle: 'Login',
+      errorMessage: errors.array()[0].msg, oldInput: {
+        email: email,
+        password: password,
+
+      },
+      validationErrors: errors.array()
+    });
+  }
 
   User.findOne({ email: email })
     .then((user) => {
       if (!user) {
+        return res.status(422).render('auth/login', {
+          path: '/login',
+          PageTitle: 'Login',
+          errorMessage: "User Not Found , Please Signup!!",
+          oldInput: {
+            email: email,
+            password: password,
 
-        req.flash('error', 'User Not Found , Please Signup!!');
-
-        return res.redirect('/login');
+          },
+          validationErrors: [{ param: 'email' }]
+        });
       }
       bcrypt
         .compare(password, user.password)
@@ -49,8 +72,18 @@ exports.postLogin = (req, res, next) => {
               return res.redirect('/');
             });
           } else {
-            req.flash('error', "You Entered Wrong Password")
-            res.redirect('/login');
+
+            return res.status(422).render('auth/login', {
+              path: '/login',
+              PageTitle: 'Login',
+              errorMessage: "You Entered Wrong Password",
+              oldInput: {
+                email: email,
+                password: password,
+
+              },
+              validationErrors: [{ param: 'password' }]
+            });
           }
 
 
@@ -78,51 +111,52 @@ exports.getSignup = (req, res, next) => {
   res.render('auth/signup', {
     path: '/signup',
     PageTitle: 'Signup',
-    errorMessage: message
+    errorMessage: message,
+    oldInput: {
+      email: "", password: null, confirmPassword: null
+    },
+    validationErrors: []
   });
 };
 
 exports.postSignup = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log(errors);
+    console.log(errors.array());
     return res.status(422).render('auth/signup', {
       path: '/signup',
       PageTitle: 'Signup',
-      errorMessage: errors.array()[0].msg
+      errorMessage: errors.array()[0].msg,
+      oldInput: {
+        email: email,
+        password: password,
+        confirmPassword: req.body.confirmPassword
+      },
+      validationErrors: errors.array()
     });;
   }
-  User.findOne({ email: email })
-    .then((userDoc) => {
-      if (userDoc) {
-        req.flash('error', 'Account with this Mail Exists!!');
-        return res.redirect('/signup');
-      }
-      return bcrypt
-        .hash(password, 12)
-        .then((hashedPassword) => {
-          const user = new User({
-            email: email,
-            password: hashedPassword,
-            cart: { items: [] },
-          });
 
-          return user.save();
-        })
-        .then(() => {
-          res.redirect('/login');
-          return transporter.sendMail({
-            to: email,
-            from: 'Shashwat Node App <support@oviotech.in>',
-            subject: "Sign Up Succesfull!!",
-            html: '<h1>You Sucessfully Signed up</h1><br><h2>Login to Continue!!</h2>'
-          });
-        }).catch(err => {
-          console.log(err);
-        })
+  bcrypt
+    .hash(password, 12)
+    .then((hashedPassword) => {
+      const user = new User({
+        email: email,
+        password: hashedPassword,
+        cart: { items: [] },
+      });
+
+      return user.save();
+    })
+    .then((result) => {
+      res.redirect('/login');
+      // return transporter.sendMail({
+      //   to: email,
+      //   from: 'Shashwat Node App <support@oviotech.in>',
+      //   subject: "Sign Up Succesfull!!",
+      //   html: '<h1>You Sucessfully Signed up</h1><br><h2>Login to Continue!!</h2>'
+      // });
     })
     .catch((err) => console.log(err));
 };
