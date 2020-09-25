@@ -167,5 +167,6 @@ exports.getInvoice = (req, res, next) => {
       res.send(data);
     });
   })
+
     .catch((err) => next(err));
 }
