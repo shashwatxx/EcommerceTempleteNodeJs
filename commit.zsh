@@ -1,4 +1,3 @@
-cd /Users/shashwat/Desktop/LEarning/Learning\ NOde/server\ first
 echo "Enter Commit Message"
 read Message
 if ["$Message" = ""]
