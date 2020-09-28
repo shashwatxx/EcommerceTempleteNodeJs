@@ -239,7 +239,7 @@ exports.getOrders = (req, res, next) => {
         path: '/orders',
         PageTitle: 'Your Orders',
         orders: orders,
-        isAuthenticated: req.session.isLoggedIn
+
       });
     })
     .catch(err => {
