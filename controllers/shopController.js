@@ -175,8 +175,7 @@ exports.getCheckout = (req, res, next) => {
 exports.getCheckoutSuccess = (req, res, next) => {
   req.user
     .populate('cart.items.productId')
-    .execPopulate()
-    .then(user => {
+    .execPopulate().then(user => {
       const products = user.cart.items.map(i => {
         return { quantity: i.quantity, product: { ...i.productId._doc } };
       });
