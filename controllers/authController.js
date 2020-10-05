@@ -7,7 +7,7 @@ const { validationResult } = require('express-validator');
 const User = require('../models/user');
 const transporter = nodemailer.createTransport(sendgridTransport({
   auth: {
-    api_key: "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"
+    api_key: "your sendgrid api key"
   }
 }));
 
@@ -157,7 +157,7 @@ exports.postSignup = (req, res, next) => {
       res.redirect('/login');
       // return transporter.sendMail({
       //   to: email,
-      //   from: 'Shashwat Node App <support@oviotech.in>',
+      //   from: ' Node App <you@example.in>',
       //   subject: "Sign Up Succesfull!!",
       //   html: '<h1>You Sucessfully Signed up</h1><br><h2>Login to Continue!!</h2>'
       // });
