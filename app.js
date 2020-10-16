@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const https = require('https');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -73,6 +74,9 @@ app.use(
 
 app.use(csrfProtection);
 
+const privateKey = fs.readFileSync('server.key');
+const certificate = fs.readFileSync('server.cert');
+
 app.use(flash());//Always after session init
 
 app.use((req, res, next) => {
@@ -122,6 +126,8 @@ mongoose
   .connect(MONGODB_URI, { useUnifiedTopology: true, useNewUrlParser: true })
   .then(result => {
     console.log('Connected To DB');
+    // https.createServer({ key: privateKey, cert: certificate }, app)
+    //   .listen(process.env.PORT || 3000);
     app.listen(process.env.PORT || 3000);
   })
   .catch(err => {
