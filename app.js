@@ -1,5 +1,5 @@
 const path = require('path');
-
+const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -8,7 +8,9 @@ const multer = require('multer');
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const MongoDBStore = require('connect-mongodb-session')(session);
-
+const helmet = require('helmet');
+const compression = require('compression');
+const morgan = require('morgan');
 const errorController = require('./controllers/errorsController');
 const User = require('./models/user');
 
@@ -47,7 +49,13 @@ app.set('views', 'views');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, 'access.log'),
+  { flags: 'a' });
 
+app.use(helmet());
+app.use(compression());
+app.use(morgan('combined', { stream: accessLogStream }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
