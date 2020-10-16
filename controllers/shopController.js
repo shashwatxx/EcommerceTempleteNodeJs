@@ -6,7 +6,7 @@ const path = require('path');
 
 const PDFDocument = require('pdfkit');
 const session = require('express-session');
-const stripe = require('stripe')('your_Key_Seceret_From_Stripe_Console');
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 const ITEMS_PER_PAGE = 2;
 exports.getProducts = (req, res, next) => {
